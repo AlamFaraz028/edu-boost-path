@@ -8,8 +8,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
-import { Zap, ArrowLeft } from 'lucide-react';
+import { Zap, ArrowLeft, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 
 const signUpSchema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters').max(100),
@@ -26,19 +27,19 @@ const signInSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-const Auth = () => {
+const MentorAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [signUpData, setSignUpData] = useState({ fullName: '', email: '', password: '', confirmPassword: '' });
   const [signInData, setSignInData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   
-  const { signUp, signIn, user } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
     if (user) {
-      navigate('/onboarding');
+      navigate('/mentor/onboarding');
     }
   }, [user, navigate]);
 
@@ -59,7 +60,30 @@ const Auth = () => {
     }
 
     setIsLoading(true);
-    const { error } = await signUp(signUpData.email, signUpData.password, signUpData.fullName);
+    
+    const redirectUrl = `${window.location.origin}/`;
+    const { error } = await supabase.auth.signUp({
+      email: signUpData.email,
+      password: signUpData.password,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: {
+          full_name: signUpData.fullName,
+        }
+      }
+    });
+
+    if (!error) {
+      // Add mentor role
+      const { data: { user: newUser } } = await supabase.auth.getUser();
+      if (newUser) {
+        await supabase.from('user_roles').insert({
+          user_id: newUser.id,
+          role: 'mentor'
+        });
+      }
+    }
+
     setIsLoading(false);
 
     if (error) {
@@ -79,9 +103,9 @@ const Auth = () => {
     } else {
       toast({
         title: 'Welcome to NEXUS!',
-        description: 'Your account has been created. Let\'s complete your profile.',
+        description: 'Your mentor account has been created. Let\'s complete your profile.',
       });
-      navigate('/onboarding');
+      navigate('/mentor/onboarding');
     }
   };
 
@@ -102,7 +126,10 @@ const Auth = () => {
     }
 
     setIsLoading(true);
-    const { error } = await signIn(signInData.email, signInData.password);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: signInData.email,
+      password: signInData.password,
+    });
     setIsLoading(false);
 
     if (error) {
@@ -112,13 +139,13 @@ const Auth = () => {
         variant: 'destructive',
       });
     } else {
-      navigate('/onboarding');
+      navigate('/mentor/onboarding');
     }
   };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--accent)/0.15),transparent_50%)]" />
       
       <div className="w-full max-w-md relative z-10">
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors">
@@ -129,13 +156,13 @@ const Auth = () => {
         <Card className="bg-card/80 backdrop-blur-xl border-border/50">
           <CardHeader className="text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <Zap className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <GraduationCap className="w-8 h-8 text-accent" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
                 NEXUS
               </span>
             </div>
-            <CardTitle className="text-xl">Student Registration</CardTitle>
-            <CardDescription>Join the future of skill-based learning</CardDescription>
+            <CardTitle className="text-xl">Mentor Registration</CardTitle>
+            <CardDescription>Join as a mentor and shape the future</CardDescription>
           </CardHeader>
           
           <CardContent>
@@ -152,7 +179,7 @@ const Auth = () => {
                     <Input
                       id="fullName"
                       type="text"
-                      placeholder="John Doe"
+                      placeholder="Dr. Jane Smith"
                       value={signUpData.fullName}
                       onChange={(e) => setSignUpData({ ...signUpData, fullName: e.target.value })}
                       className={errors.fullName ? 'border-destructive' : ''}
@@ -200,7 +227,7 @@ const Auth = () => {
                   </div>
                   
                   <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>
-                    {isLoading ? 'Creating account...' : 'Create Account'}
+                    {isLoading ? 'Creating account...' : 'Create Mentor Account'}
                   </Button>
                 </form>
               </TabsContent>
@@ -242,8 +269,8 @@ const Auth = () => {
             
             <div className="mt-6 text-center">
               <p className="text-muted-foreground text-sm">
-                Are you a mentor?{' '}
-                <Link to="/mentor/auth" className="text-accent hover:underline">
+                Are you a student?{' '}
+                <Link to="/auth" className="text-primary hover:underline">
                   Register here
                 </Link>
               </p>
@@ -255,4 +282,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default MentorAuth;
