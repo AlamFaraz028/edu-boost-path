@@ -14,6 +14,157 @@ export type Database = {
   }
   public: {
     Tables: {
+      mentor_profiles: {
+        Row: {
+          bio: string | null
+          created_at: string
+          expertise_areas: string[] | null
+          hourly_rate: number | null
+          id: string
+          is_available: boolean | null
+          linkedin_url: string | null
+          onboarding_completed: boolean | null
+          phone: string | null
+          portfolio_url: string | null
+          updated_at: string
+          user_id: string
+          verification_status: string | null
+          years_of_experience: number | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          expertise_areas?: string[] | null
+          hourly_rate?: number | null
+          id?: string
+          is_available?: boolean | null
+          linkedin_url?: string | null
+          onboarding_completed?: boolean | null
+          phone?: string | null
+          portfolio_url?: string | null
+          updated_at?: string
+          user_id: string
+          verification_status?: string | null
+          years_of_experience?: number | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          expertise_areas?: string[] | null
+          hourly_rate?: number | null
+          id?: string
+          is_available?: boolean | null
+          linkedin_url?: string | null
+          onboarding_completed?: boolean | null
+          phone?: string | null
+          portfolio_url?: string | null
+          updated_at?: string
+          user_id?: string
+          verification_status?: string | null
+          years_of_experience?: number | null
+        }
+        Relationships: []
+      }
+      mentor_qualifications: {
+        Row: {
+          certificate_url: string | null
+          created_at: string
+          id: string
+          institution: string
+          is_verified: boolean | null
+          mentor_id: string
+          title: string
+          year_obtained: number | null
+        }
+        Insert: {
+          certificate_url?: string | null
+          created_at?: string
+          id?: string
+          institution: string
+          is_verified?: boolean | null
+          mentor_id: string
+          title: string
+          year_obtained?: number | null
+        }
+        Update: {
+          certificate_url?: string | null
+          created_at?: string
+          id?: string
+          institution?: string
+          is_verified?: boolean | null
+          mentor_id?: string
+          title?: string
+          year_obtained?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mentor_qualifications_mentor_id_fkey"
+            columns: ["mentor_id"]
+            isOneToOne: false
+            referencedRelation: "mentor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mentor_sessions: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_time: string
+          id: string
+          max_participants: number | null
+          meeting_link: string | null
+          mentor_id: string
+          session_date: string
+          session_type: string | null
+          start_time: string
+          status: string | null
+          student_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_time: string
+          id?: string
+          max_participants?: number | null
+          meeting_link?: string | null
+          mentor_id: string
+          session_date: string
+          session_type?: string | null
+          start_time: string
+          status?: string | null
+          student_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_time?: string
+          id?: string
+          max_participants?: number | null
+          meeting_link?: string | null
+          mentor_id?: string
+          session_date?: string
+          session_type?: string | null
+          start_time?: string
+          status?: string | null
+          student_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mentor_sessions_mentor_id_fkey"
+            columns: ["mentor_id"]
+            isOneToOne: false
+            referencedRelation: "mentor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
