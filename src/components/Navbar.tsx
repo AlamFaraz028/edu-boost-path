@@ -20,10 +20,11 @@ const Navbar = () => {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-muted-foreground hover:text-primary transition-colors">Features</a>
-            <a href="#skills" className="text-muted-foreground hover:text-primary transition-colors">Skill Tracks</a>
-            <a href="#schools" className="text-muted-foreground hover:text-primary transition-colors">For Schools</a>
-            <a href="#mentors" className="text-muted-foreground hover:text-primary transition-colors">For Mentors</a>
+            <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
+            <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">Courses</Link>
+            <a href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">Skill Tracks</a>
+            <a href="/#users" className="text-muted-foreground hover:text-primary transition-colors">For Schools</a>
+            <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
           </div>
 
           <div className="hidden md:flex items-center gap-3">
@@ -59,10 +60,11 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden py-4 border-t border-border/30">
             <div className="flex flex-col gap-4">
-              <a href="#features" className="text-muted-foreground hover:text-primary transition-colors">Features</a>
-              <a href="#skills" className="text-muted-foreground hover:text-primary transition-colors">Skill Tracks</a>
-              <a href="#schools" className="text-muted-foreground hover:text-primary transition-colors">For Schools</a>
-              <a href="#mentors" className="text-muted-foreground hover:text-primary transition-colors">For Mentors</a>
+              <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
+              <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">Courses</Link>
+              <a href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">Skill Tracks</a>
+              <a href="/#users" className="text-muted-foreground hover:text-primary transition-colors">For Schools</a>
+              <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
               <div className="flex gap-3 pt-4">
                 {user ? (
                   <Button variant="ghost" size="sm" onClick={() => signOut()}>
