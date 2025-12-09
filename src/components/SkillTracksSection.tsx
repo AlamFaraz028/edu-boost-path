@@ -1,4 +1,4 @@
-import { Code, Palette, TrendingUp, DollarSign, Database, Smartphone } from "lucide-react";
+import { Code, Palette, TrendingUp, DollarSign, Database, Brain, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const skillTracks = [
@@ -33,10 +33,16 @@ const skillTracks = [
     color: "from-purple-500 to-violet-600"
   },
   {
-    icon: Smartphone,
-    title: "Mobile Development",
-    courses: 22,
-    color: "from-red-500 to-pink-600"
+    icon: Brain,
+    title: "AI & Machine Learning",
+    courses: 30,
+    color: "from-indigo-500 to-purple-600"
+  },
+  {
+    icon: Users,
+    title: "Soft Skills",
+    courses: 25,
+    color: "from-teal-500 to-cyan-600"
   }
 ];
 
