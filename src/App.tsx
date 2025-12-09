@@ -10,6 +10,11 @@ import Onboarding from "./pages/Onboarding";
 import MentorAuth from "./pages/MentorAuth";
 import MentorOnboarding from "./pages/MentorOnboarding";
 import MentorDashboard from "./pages/MentorDashboard";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Courses from "./pages/Courses";
+import StudentDashboard from "./pages/StudentDashboard";
+import SchoolDashboard from "./pages/SchoolDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,8 +28,13 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route path="/school/dashboard" element={<SchoolDashboard />} />
             <Route path="/mentor/auth" element={<MentorAuth />} />
             <Route path="/mentor/onboarding" element={<MentorOnboarding />} />
             <Route path="/mentor/dashboard" element={<MentorDashboard />} />
