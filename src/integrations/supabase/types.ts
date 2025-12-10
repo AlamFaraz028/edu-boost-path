@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          color: string | null
+          description: string | null
+          icon_name: string | null
+          id: string
+          title: string
+        }
+        Insert: {
+          color?: string | null
+          description?: string | null
+          icon_name?: string | null
+          id?: string
+          title: string
+        }
+        Update: {
+          color?: string | null
+          description?: string | null
+          icon_name?: string | null
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      courses: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          instructor_name: string | null
+          skill_track: string
+          thumbnail_url: string | null
+          title: string
+          total_lessons: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          instructor_name?: string | null
+          skill_track: string
+          thumbnail_url?: string | null
+          title: string
+          total_lessons?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          instructor_name?: string | null
+          skill_track?: string
+          thumbnail_url?: string | null
+          title?: string
+          total_lessons?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       mentor_profiles: {
         Row: {
           bio: string | null
@@ -194,6 +254,159 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      school_profiles: {
+        Row: {
+          address: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          onboarding_completed: boolean | null
+          school_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          onboarding_completed?: boolean | null
+          school_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          onboarding_completed?: boolean | null
+          school_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      school_students: {
+        Row: {
+          enrolled_at: string
+          id: string
+          school_id: string
+          student_id: string
+        }
+        Insert: {
+          enrolled_at?: string
+          id?: string
+          school_id: string
+          student_id: string
+        }
+        Update: {
+          enrolled_at?: string
+          id?: string
+          school_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "school_students_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "school_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "school_students_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_achievements: {
+        Row: {
+          achievement_id: string
+          earned_at: string
+          id: string
+          student_id: string
+        }
+        Insert: {
+          achievement_id: string
+          earned_at?: string
+          id?: string
+          student_id: string
+        }
+        Update: {
+          achievement_id?: string
+          earned_at?: string
+          id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_achievements_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_enrollments: {
+        Row: {
+          course_id: string
+          enrolled_at: string
+          id: string
+          lessons_completed: number | null
+          progress: number | null
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          course_id: string
+          enrolled_at?: string
+          id?: string
+          lessons_completed?: number | null
+          progress?: number | null
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string
+          enrolled_at?: string
+          id?: string
+          lessons_completed?: number | null
+          progress?: number | null
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_enrollments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       student_profiles: {
         Row: {
