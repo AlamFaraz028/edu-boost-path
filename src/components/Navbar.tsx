@@ -22,8 +22,8 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-8">
             <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
             <Link to="/courses" className="text-muted-foreground hover:text-primary transition-colors">Courses</Link>
-            <a href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">Skill Tracks</a>
-            <a href="/#users" className="text-muted-foreground hover:text-primary transition-colors">For Schools</a>
+            {/* <a href="/#skills" className="text-muted-foreground hover:text-primary transition-colors">Skill Tracks</a> */}
+            <Link to="/school/dashboard" className="text-muted-foreground hover:text-primary transition-colors">For Schools</Link>
             <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
           </div>
 
